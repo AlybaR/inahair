@@ -52,11 +52,11 @@ export default function Home() {
       <section aria-label="Nos engagements" className="border-b border-line bg-cream">
         <div className="container-site grid grid-cols-2 gap-x-4 gap-y-6 py-8 lg:grid-cols-4">
           {reassurance.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="flex items-start gap-3 sm:items-center">
+            <div key={title} className="flex min-w-0 flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-blush text-berry">
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
               </span>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-bold text-cocoa">{title}</p>
                 <p className="hidden text-xs text-muted sm:block">{text}</p>
               </div>

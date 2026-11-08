@@ -16,10 +16,12 @@ import { WishlistProvider } from './store/wishlist';
 
 // MemoryRouter pour la prévisualisation hébergée (fichier unique), BrowserRouter sinon.
 const Router = __PREVIEW_MODE__ ? MemoryRouter : BrowserRouter;
+// Sous-dossier éventuel (ex. GitHub Pages : /inahair), défini par BASE_PATH au build.
+const basename = __PREVIEW_MODE__ ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;
 
 export default function App() {
   return (
-    <Router>
+    <Router basename={basename}>
       <UIProvider>
         <AccountProvider>
           <WishlistProvider>

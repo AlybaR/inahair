@@ -19,6 +19,25 @@ npm run lint           # vérifie le code (ESLint)
 Node 18+ recommandé. En production, servez `dist/` avec un retour vers `index.html`
 (`public/_redirects` pour Netlify et `vercel.json` sont fournis).
 
+## Mise en ligne
+
+### OVH (hébergement mutualisé Apache)
+
+1. `npm run build` : le dossier `dist/` contient tout le site, y compris le fichier `.htaccess`
+   qui renvoie toutes les routes vers `index.html` (actualisation et liens directs fonctionnels).
+2. Envoyez **le contenu** de `dist/` (et non le dossier lui-même) dans le dossier `www/` de
+   l'hébergement, par FTP (FileZilla) ou via le gestionnaire de fichiers OVH.
+   Pensez à afficher les fichiers cachés pour bien transférer `.htaccess`.
+3. Le site est servi à la racine du domaine : aucune autre configuration n'est nécessaire.
+   Pour un sous-dossier (ex. `mondomaine.fr/boutique/`), construisez avec `BASE_PATH=/boutique/ npm run build`
+   et adaptez `RewriteBase` dans `.htaccess`.
+
+### GitHub Pages (lien de démonstration)
+
+Le workflow `.github/workflows/deploy-pages.yml` construit et publie le site à chaque push sur `main`,
+sous `https://<compte>.github.io/<dépôt>/`. Il faut activer Pages une fois :
+**Settings → Pages → Source : GitHub Actions**. Sur un compte GitHub gratuit, Pages exige un dépôt public.
+
 ## Stack
 
 React 18 · TypeScript · Vite · Tailwind CSS · React Router 6 · Lucide React · Framer Motion.

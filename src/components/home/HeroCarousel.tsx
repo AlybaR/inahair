@@ -49,15 +49,10 @@ export function HeroCarousel() {
               transition={{ duration: 0.45 }}
             >
               <p className="eyebrow">{slide.eyebrow}</p>
-              {index === 0 ? (
-                <h1 className="mt-4 max-w-xl font-serif text-[2.4rem] leading-[1.08] text-cocoa sm:text-5xl lg:text-[3.6rem]">
-                  {slide.title}
-                </h1>
-              ) : (
-                <h2 className="mt-4 max-w-xl font-serif text-[2.4rem] leading-[1.08] text-cocoa sm:text-5xl lg:text-[3.6rem]">
-                  {slide.title}
-                </h2>
-              )}
+              {/* Une seule slide est affichée à la fois : la page garde toujours un titre principal. */}
+              <h1 className="mt-4 max-w-xl font-serif text-[2.4rem] leading-[1.08] text-cocoa sm:text-5xl lg:text-[3.6rem]">
+                {slide.title}
+              </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">{slide.text}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link to={slide.primary.to} className="btn-primary px-8">

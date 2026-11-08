@@ -22,7 +22,12 @@ export const formatDateTime = (iso: string) =>
 export const pluralize = (n: number, one: string, many: string) => `${n}\u00a0${n > 1 ? many : one}`;
 
 /** Normalise une chaîne pour la recherche (minuscules, sans accents). */
-export const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+export const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
 
 export const isValidEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.trim());
 export const isValidPhone = (s: string) => /^\+?[\d\s.-]{8,18}$/.test(s.trim());

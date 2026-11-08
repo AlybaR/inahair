@@ -115,11 +115,11 @@ export default function Catalog({ id }: { id: CatalogDefinition['id'] }) {
             <span className="font-bold text-cocoa">{pluralize(results.length, 'produit', 'produits')}</span>
             {activeCount > 0 && ` sur ${base.length}`}
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="btn-outline !min-h-[42px] !py-2 lg:hidden"
+              className="btn-outline !min-h-[42px] shrink-0 !py-2 lg:hidden"
             >
               <SlidersHorizontal className="h-4 w-4" /> Filtres{' '}
               {activeCount > 0 && (
@@ -137,7 +137,7 @@ export default function Catalog({ id }: { id: CatalogDefinition['id'] }) {
               onChange={(e) =>
                 update((p) => (e.target.value === 'pertinence' ? p.delete('tri') : p.set('tri', e.target.value)))
               }
-              className="input !w-auto !rounded-full !py-2.5 !pr-9 text-sm font-semibold"
+              className="input min-w-0 flex-1 !rounded-full !py-2.5 !pr-9 text-sm font-semibold sm:!w-auto sm:flex-none"
             >
               {sortOptions.map((o) => (
                 <option key={o.value} value={o.value}>
