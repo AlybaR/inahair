@@ -9,6 +9,8 @@ import Guide from './pages/Guide';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import ProductPage from './pages/ProductPage';
+import { ExternalRedirect, WooCheckout } from './pages/WooRedirects';
+import { isWooConfigured, wooAccountUrl } from './lib/woocommerce';
 import { AccountProvider } from './store/account';
 import { CartProvider } from './store/cart';
 import { UIProvider } from './store/ui';
@@ -20,6 +22,9 @@ const Router = __PREVIEW_MODE__ ? MemoryRouter : BrowserRouter;
 const basename = __PREVIEW_MODE__ ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;
 
 export default function App() {
+  // Boutique réelle (WooCommerce) : paiement et espace client sont gérés par WooCommerce.
+  const woo = isWooConfigured();
+  const account = <ExternalRedirect to={wooAccountUrl()} title="Votre espace client" />;
   return (
     <Router basename={basename}>
       <UIProvider>
@@ -40,17 +45,17 @@ export default function App() {
                   <Route path="recherche" element={<SearchPage />} />
                   <Route path="favoris" element={<WishlistPage />} />
                   <Route path="panier" element={<CartPage />} />
-                  <Route path="commande" element={<Checkout />} />
-                  <Route path="commande/confirmation" element={<ConfirmationPage />} />
-                  <Route path="connexion" element={<LoginPage />} />
-                  <Route path="inscription" element={<RegisterPage />} />
-                  <Route path="compte" element={<AccountPage />} />
-                  <Route path="compte/commandes" element={<AccountOrdersPage />} />
+                  <Route path="commande" element={woo ? <WooCheckout /> : <Checkout />} />
+                  <Route path="commande/confirmation" element={woo ? account : <ConfirmationPage />} />
+                  <Route path="connexion" element={woo ? account : <LoginPage />} />
+                  <Route path="inscription" element={woo ? account : <RegisterPage />} />
+                  <Route path="compte" element={woo ? account : <AccountPage />} />
+                  <Route path="compte/commandes" element={woo ? account : <AccountOrdersPage />} />
                   <Route path="a-propos" element={<AboutPage />} />
                   <Route path="livraison-retours" element={<ShippingPage />} />
                   <Route path="faq" element={<FaqPage />} />
                   <Route path="contact" element={<ContactPage />} />
-                  <Route path="suivi-commande" element={<TrackingPage />} />
+                  <Route path="suivi-commande" element={woo ? account : <TrackingPage />} />
                   <Route path="mentions-legales" element={<LegalPage page="mentions-legales" />} />
                   <Route path="confidentialite" element={<LegalPage page="confidentialite" />} />
                   <Route path="cgv" element={<LegalPage page="cgv" />} />

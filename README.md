@@ -19,6 +19,17 @@ npm run lint           # vérifie le code (ESLint)
 Node 18+ recommandé. En production, servez `dist/` avec un retour vers `index.html`
 (`public/_redirects` pour Netlify et `vercel.json` sont fournis).
 
+## Boutique réelle (backend WooCommerce)
+
+Le site peut être branché sur **WooCommerce** (gratuit, auto-hébergé sur OVH) : catalogue, stocks,
+commandes, clients et paiement réels. Sans configuration, il reste en mode démonstration.
+Guide complet : [docs/WOOCOMMERCE.md](docs/WOOCOMMERCE.md).
+
+```bash
+npm run woo:export       # génère woocommerce/inahair-produits.csv (import natif WooCommerce)
+npm run woo:test-server  # WooCommerce de test local sur http://127.0.0.1:9400
+```
+
 ## Mise en ligne
 
 ### OVH (hébergement mutualisé Apache)

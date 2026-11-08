@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "woo:export": "node scripts/woo-export.mjs",
+    "woo:test-server": "npx --yes @wp-playground/cli@latest server --port=9400 --blueprint=woocommerce/playground-blueprint.json --mount-dir woocommerce /wordpress/wp-content/import --login"
   },
   "dependencies": {
     "framer-motion": "^14.10.1",

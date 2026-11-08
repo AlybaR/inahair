@@ -1,0 +1,26 @@
+{
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "login": true,
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" },
+      "options": { "activate": true }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "permalink_structure": "/%postname%/",
+        "woocommerce_currency": "EUR",
+        "woocommerce_default_country": "FR",
+        "woocommerce_onboarding_profile": { "skipped": true },
+        "woocommerce_coming_soon": "no",
+        "woocommerce_store_pages_only": "no"
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require '/wordpress/wp-load.php'; include '/wordpress/wp-content/import/import-test.php';"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { siteConfig, type PromoCode, type ShippingMethod } from '../config/site';
 import { getProductById } from '../data/products';
 import type { CartLine, OptionKey, Product, Selections } from '../data/types';
+import { findWooVariant } from './woocommerce';
 
 /**
  * LOGIQUE COMMERCIALE CENTRALISÉE (fictive).
@@ -32,12 +33,14 @@ export function defaultSelections(product: Product): Selections {
 }
 
 export function isCombinationUnavailable(product: Product, sel: Selections): boolean {
+  if (product.woo) return !findWooVariant(product, sel)?.inStock;
   return (product.unavailableCombos ?? []).some((combo) =>
     (Object.keys(combo) as OptionKey[]).every((k) => sel[k] === combo[k]),
   );
 }
 
 export function isSelectionAvailable(product: Product, sel: Selections): boolean {
+  if (product.woo) return !!findWooVariant(product, sel)?.inStock;
   if (product.stock === 'out_of_stock') return false;
   for (const opt of product.options) {
     const v = opt.values.find((x) => x.value === sel[opt.key]);
@@ -48,6 +51,7 @@ export function isSelectionAvailable(product: Product, sel: Selections): boolean
 
 /** Prix avant promotion pour une sélection donnée. */
 export function getRegularPrice(product: Product, sel: Selections): number {
+  if (product.woo) return findWooVariant(product, sel)?.regularPrice ?? product.basePrice;
   let price = product.basePrice;
   for (const opt of product.options) {
     const v = opt.values.find((x) => x.value === sel[opt.key]);
@@ -58,6 +62,8 @@ export function getRegularPrice(product: Product, sel: Selections): number {
 
 /** Prix payé (après promotion produit). */
 export function getUnitPrice(product: Product, sel: Selections): number {
+  // Boutique réelle : le prix payé est celui de la variante WooCommerce (promotions comprises).
+  if (product.woo) return findWooVariant(product, sel)?.price ?? product.basePrice;
   const regular = getRegularPrice(product, sel);
   if (!product.discountPercent) return regular;
   return roundTo(regular * (1 - product.discountPercent / 100));
@@ -70,6 +76,7 @@ export function getFromPrice(product: Product) {
 }
 
 export function hasMultiplePrices(product: Product) {
+  if (product.woo) return new Set(product.woo.variants.map((v) => v.price)).size > 1;
   return product.options.some((o) => o.values.some((v) => (v.priceDelta ?? 0) > 0));
 }
 

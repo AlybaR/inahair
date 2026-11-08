@@ -1,3 +1,5 @@
+import type { WooVariant } from '../lib/woocommerce';
+
 export type CategoryId = 'perruques' | 'tissages' | 'accessoires';
 
 export type OptionKey = 'length' | 'texture' | 'lace' | 'density' | 'color' | 'weight' | 'size';
@@ -57,6 +59,8 @@ export interface Product {
   /** Rang éditorial pour le tri « Pertinence ». */
   featuredRank: number;
   related?: string[];
+  /** Données WooCommerce (présentes uniquement quand la boutique réelle est connectée). */
+  woo?: { productId: number; variants: WooVariant[] };
 }
 
 export interface CartLine {

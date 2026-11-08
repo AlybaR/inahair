@@ -25,3 +25,9 @@ dist-ssr
 
 dist-preview
 !.vscode/settings.json
+
+# Configuration locale (adresse de la boutique)
+.env
+.env.*
+!.env.example
+woocommerce/import-result.json
